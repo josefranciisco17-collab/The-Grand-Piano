@@ -29,18 +29,11 @@ min-height:100vh;
 
 .controls{
 position:fixed;
-top:2px;
-left:0;
-width:100%;
-display:grid;
-grid-template-columns: auto auto auto;
-grid-template-rows: auto auto;
-justify-content:start;
-gap:8px;
+top:15px;
+left:15px;
+display:flex;
+gap:10px;
 align-items:center;
-padding:8px 10px;
-box-sizing:border-box;
-background:#121212;
 z-index:999;
 }
 
@@ -128,15 +121,12 @@ position:fixed;
 bottom:0;
 left:0;
 width:100%;
-max-width:100vw;
-height:calc(100vh - 110px);
-background:transparent;
+height:280px;
 padding:10px;
 box-sizing:border-box;
 overflow-x:auto;
 overflow-y:hidden;
-touch-action:pan-x;
-scroll-behavior:auto;
+z-index:10;
 }
 
 .topbar{
@@ -336,24 +326,26 @@ padding:8px 12px;
 
 <body>
 
-<div class="topbar" id="controlsBox">
+<div class="controls" id="controlsBox">
+  <button id="pedal" class="glass-btn">🎹 Sustain OFF</button>
+  <button id="songsBtn" class="glass-btn">🎵 Songs</button>
+  <button id="practiceBtn" class="glass-btn">📘 Practice</button>
+  <button id="menuBtn" class="glass-btn">🏠 Menú</button>
+</div>
 
-  <div class="left-controls">
-    <button id="pedal" class="glass-btn">🎹 Sustain OFF</button>
-  </div>
+<img src="./icon.png" id="middleLogo">
 
-  <div class="center-controls">
-    <button id="songsBtn" class="glass-btn">🎵 Songs</button>
-    <button id="practiceBtn" class="glass-btn">📘 Practice</button>
-  </div>
+<div id="logoBox">
+  <h2 id="mainTitle">Piano Deluxe Premium</h2>
+  <div id="brandText">JFAM & Co. Piano Studios</div>
+</div>
 
-  <div class="right-controls">
-    <button id="menuBtn" class="glass-btn">🏠 Menú</button>
-  </div>
-
+<div class="piano-container" id="container">
+  <div class="piano-keyboard" id="keyboard"></div>
 </div>
 
 <script>
+
 
 const AudioContextClass=
 window.AudioContext||

@@ -564,6 +564,52 @@ src.stop(audioCtx.currentTime+1.6);
 }
 }
 
+
+async function loadMidi(file){
+  try{
+    const response = await fetch(file);
+    const arrayBuffer = await response.arrayBuffer();
+    const midi = new Midi(arrayBuffer);
+
+    if(window.currentMidi){
+      window.currentMidi.stop();
+    }
+
+    let timeoutIds=[];
+
+    window.currentMidi={
+      stop(){
+        timeoutIds.forEach(id=>clearTimeout(id));
+        clearAllLights();
+      }
+    };
+
+    midi.tracks.forEach(track=>{
+      track.notes.forEach(note=>{
+        const id=setTimeout(()=>{
+          playNote(note.midi-21);
+
+          const key=document.querySelector(`[data-note="${note.midi-21}"]`);
+          if(key){
+            key.classList.add(note.midi<60 ? "left-hand":"right-hand");
+
+            setTimeout(()=>{
+              key.classList.remove("left-hand","right-hand");
+            }, note.duration*1000);
+          }
+        }, note.time*1000);
+
+        timeoutIds.push(id);
+      });
+    });
+
+  }catch(err){
+    console.log("Error cargando MIDI:", err);
+  }
+}
+
+
+
 const names=[
 "Do","Do#","Re","Re#",
 "Mi","Fa","Fa#","Sol",

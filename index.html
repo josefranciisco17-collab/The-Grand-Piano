@@ -288,13 +288,6 @@ padding:8px 12px;
 <div class="controls" id="controlsBox">
 <button id="pedal">Sustain OFF</button>
 <button id="menuBtn">🏠 Ir al Menú</button>
-<label for="midiFile">Seleccionar MIDI</label>
-
-<button id="pauseMidi">⏸ Pausar</button>
-<button id="continueMidi">⏭ Continuar</button>
-<button id="playMidi">▶ Reproducir</button>
-
-<input type="file" id="midiFile" accept=".mid,.midi">
 </div>
 
 <img src="./icon.png" id="middleLogo">
@@ -317,27 +310,11 @@ let audioCtx;
 let sustain=false;
 let locked=false;
 const cache={};
-let midiData=null;
-let midiTimeouts=[];
-let paused=false;
-let pauseTime=0;
-let startTime=0;
 
 const mainTitle=document.getElementById("mainTitle");
 const brandText=document.getElementById("brandText");
 const controlsBox=document.getElementById("controlsBox");
 
-function hideUI(){
-    mainTitle.style.visibility="hidden";
-    brandText.style.visibility="hidden";
-    controlsBox.style.visibility="hidden";
-}
-
-function showUI(){
-    mainTitle.style.visibility="visible";
-    brandText.style.visibility="visible";
-    controlsBox.style.visibility="visible";
-}
 
 function clearAllLights(){
 document.querySelectorAll(".key")
@@ -487,124 +464,6 @@ key.classList.remove("active");
 keyboard.appendChild(key);
 }
 
-document.getElementById("midiFile")
-.addEventListener("change",async(e)=>{
-
-const file=e.target.files[0];
-if(!file)return;
-
-const buffer=await file.arrayBuffer();
-midiData=new Midi(buffer);
-
-alert("MIDI cargado");
-
-});
-
-function clearMidi(){
-midiTimeouts.forEach(
-t=>clearTimeout(t)
-);
-
-midiTimeouts=[];
-showUI();
-}
-
-function scheduleMidi(offset=0){
-
-if(!midiData)return;
-
-startTime=Date.now()-offset*1000;
-
-midiData.tracks.forEach(track=>{
-
-track.notes.forEach(n=>{
-
-if(n.time<offset)return;
-
-const noteId=n.midi-21;
-
-const timeout=setTimeout(()=>{
-
-const key=document.querySelector(
-'[data-note="'+noteId+'"]'
-);
-
-if(key){
-
-key.classList.add("active");
-
-if(noteId<39){
-key.classList.add("left-hand");
-}else{
-key.classList.add("right-hand");
-}
-
-playNote(noteId);
-
-setTimeout(()=>{
-
-key.classList.remove(
-"active",
-"left-hand",
-"right-hand"
-);
-
-if(n===track.notes[
-track.notes.length-1
-]){
-clearAllLights();
-showUI();
-}
-
-},n.duration*1000);
-
-}
-
-},(n.time-offset)*1000);
-
-midiTimeouts.push(timeout);
-
-});
-
-});
-
-}
-
-document.getElementById("playMidi").onclick=()=>{
-
-if(!midiData){
-alert("Selecciona un MIDI");
-return;
-}
-
-clearMidi();
-pauseTime=0;
-scheduleMidi(0);
-paused=false;
-
-};
-
-document.getElementById("pauseMidi").onclick=()=>{
-
-clearMidi();
-clearAllLights();
-
-pauseTime=
-(Date.now()-startTime)/1000;
-
-paused=true;
-
-};
-
-document.getElementById("continueMidi").onclick=()=>{
-
-if(!paused)return;
-
-clearMidi();
-scheduleMidi(pauseTime);
-paused=false;
-
-};
 
 </script>
 

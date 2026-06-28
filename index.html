@@ -139,6 +139,57 @@ touch-action:pan-x;
 scroll-behavior:auto;
 }
 
+.topbar{
+position:fixed;
+top:15px;
+left:50%;
+transform:translateX(-50%);
+width:95%;
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:12px 16px;
+background:rgba(20,20,20,.75);
+backdrop-filter:blur(18px);
+-webkit-backdrop-filter:blur(18px);
+border:1px solid rgba(255,255,255,.08);
+border-radius:18px;
+box-shadow:
+0 8px 30px rgba(0,0,0,.45),
+inset 0 1px 0 rgba(255,255,255,.08);
+z-index:999;
+}
+
+.left-controls,
+.center-controls,
+.right-controls{
+display:flex;
+align-items:center;
+gap:10px;
+}
+
+.glass-btn{
+background:linear-gradient(
+180deg,
+rgba(255,255,255,.12),
+rgba(255,255,255,.04)
+);
+border:1px solid rgba(255,255,255,.08);
+color:#fff;
+padding:10px 14px;
+border-radius:14px;
+font-size:13px;
+font-weight:600;
+backdrop-filter:blur(12px);
+-webkit-backdrop-filter:blur(12px);
+transition:.2s;
+}
+
+.glass-btn:active{
+transform:scale(.95);
+background:rgba(255,255,255,.18);
+}
+
 .white{
 min-width:55px;
 width:55px;
@@ -285,22 +336,23 @@ padding:8px 12px;
 
 <body>
 
-<div class="controls" id="controlsBox">
-<button id="pedal">Sustain OFF</button>
-<button id="menuBtn">🏠 Ir al Menú</button>
+<div class="topbar" id="controlsBox">
+
+  <div class="left-controls">
+    <button id="pedal" class="glass-btn">🎹 Sustain OFF</button>
+  </div>
+
+  <div class="center-controls">
+    <button id="songsBtn" class="glass-btn">🎵 Songs</button>
+    <button id="practiceBtn" class="glass-btn">📘 Practice</button>
+  </div>
+
+  <div class="right-controls">
+    <button id="menuBtn" class="glass-btn">🏠 Menú</button>
+  </div>
+
 </div>
 
-<img src="./icon.png" id="middleLogo">
-
-<div id="logoBox">
-  <h2 id="mainTitle">Piano Deluxe Premium</h2>
-  <div id="brandText">JFAM & Co. Piano Studios</div>
-</div>
-
-<div class="piano-container" id="container">
-  <div class="piano-keyboard" id="keyboard"></div>
-</div>
-<script>
 
 const AudioContextClass=
 window.AudioContext||

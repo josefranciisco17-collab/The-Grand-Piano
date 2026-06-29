@@ -409,6 +409,36 @@ color:#fff;
 font-size:16px;
 }
 
+.midi-title-row{
+display:flex;
+align-items:center;
+justify-content:space-between;
+margin-bottom:15px;
+}
+
+.midi-mini-controls{
+display:flex;
+gap:6px;
+}
+
+.midi-mini-controls button{
+width:34px;
+height:34px;
+border:none;
+border-radius:8px;
+background:rgba(255,255,255,.08);
+color:#fff;
+font-size:16px;
+cursor:pointer;
+backdrop-filter:blur(8px);
+-webkit-backdrop-filter:blur(8px);
+transition:.2s;
+}
+
+.midi-mini-controls button:active{
+transform:scale(.95);
+}
+
 </style>
 </head>
 
@@ -434,8 +464,13 @@ font-size:16px;
 
 <div id="songsModal" class="songs-modal hidden">
   <div class="songs-box">
-    <h3>🎵 Biblioteca MIDI</h3>
-
+<div class="midi-title-row">
+  <h3>🎵 Biblioteca MIDI</h3>
+  <div class="midi-mini-controls">
+    <button onclick="pauseMidi()">⏸</button>
+    <button onclick="resumeMidi()">▶</button>
+  </div>
+</div>
     <div id="songsList">
       <button class="song-item" data-file="midis/Beethoven-Moonlight-Sonata.mid">Beethoven - Moonlight Sonata</button>
       <button class="song-item" data-file="midis/Fur Elise.mid">Fur Elise</button>

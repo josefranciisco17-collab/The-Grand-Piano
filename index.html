@@ -496,7 +496,9 @@ let audioCtx;
 let sustain=false;
 let locked=false;
 const cache={};
-
+let currentMidiFile = null;
+let midiStartTime = 0;
+let pausedTime = 0;
 const songsBtn = document.getElementById("songsBtn");
 const songsModal = document.getElementById("songsModal");
 const closeSongs = document.getElementById("closeSongs");
@@ -543,6 +545,19 @@ key.classList.remove(
 function initAudio(){
 if(!audioCtx)
 audioCtx=new AudioContextClass();
+}
+
+function pauseMidi(){
+  if(window.currentMidi){
+    pausedTime = Date.now() - midiStartTime;
+    window.currentMidi.stop();
+  }
+}
+
+function resumeMidi(){
+  if(currentMidiFile && pausedTime > 0){
+    loadMidi(currentMidiFile, pausedTime);
+  }
 }
 
 document.getElementById("pedal").onclick=()=>{
@@ -635,8 +650,11 @@ src.stop(audioCtx.currentTime+1.6);
 }
 
 
-async function loadMidi(file){
-  try{
+async function loadMidi(file, startAt = 0){
+currentMidiFile = file;
+midiStartTime = Date.now() - startAt;
+pausedTime = 0; 
+ try{
     const response = await fetch(file);
     const arrayBuffer = await response.arrayBuffer();
     const midi = new Midi(arrayBuffer);

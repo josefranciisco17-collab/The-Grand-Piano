@@ -410,30 +410,34 @@ font-size:16px;
 }
 
 .midi-title-row{
-display:flex;
-align-items:center;
-justify-content:space-between;
-margin-bottom:15px;
+  display:flex;
+  align-items:center;
+  justify-content:flex-start;
+  gap:12px;
+  padding:0 10px;
+}
+
+.midi-title-row h3{
+  margin:0;
+  display:flex;
+  align-items:center;
+  gap:8px;
 }
 
 .midi-mini-controls{
-display:flex;
-gap:6px;
+  display:flex;
+  gap:6px;
+  margin-left:auto;
 }
 
 .midi-mini-controls button{
-width:34px;
-height:34px;
-border:none;
-border-radius:8px;
-background:rgba(255,255,255,.08);
-color:#fff;
-font-size:16px;
-cursor:pointer;
-backdrop-filter:blur(8px);
--webkit-backdrop-filter:blur(8px);
-transition:.2s;
+  width:38px;
+  height:38px;
+  border:none;
+  border-radius:10px;
+  font-size:18px;
 }
+
 
 .midi-mini-controls button:active{
 transform:scale(.95);
@@ -464,15 +468,14 @@ transform:scale(.95);
 
 <div id="songsModal" class="songs-modal hidden">
   <div class="songs-box">
+  
 <div class="midi-title-row">
-  <h3>🎵 Biblioteca MIDI</h3>
+<h3>🎵 Biblioteca MIDI</h3>
   <div class="midi-mini-controls">
     <button onclick="pauseMidi()">⏸</button>
     <button onclick="resumeMidi()">▶</button>
   </div>
 </div>
-
-
 
 <div id="songsList">
 

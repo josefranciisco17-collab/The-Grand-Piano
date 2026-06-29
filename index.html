@@ -673,7 +673,8 @@ pausedTime = 0;
     };
 
     midi.tracks.forEach(track=>{
-      track.notes.forEach(note=>{
+track.notes.forEach(note=>{
+if((note.time*1000) < startAt) return;
         const id=setTimeout(()=>{
           playNote(note.midi-21);
 
@@ -685,7 +686,7 @@ pausedTime = 0;
               key.classList.remove("left-hand","right-hand");
             }, note.duration*1000);
           }
-        }, note.time*1000);
+      }, (note.time*1000) - startAt);
 
         timeoutIds.push(id);
       });
